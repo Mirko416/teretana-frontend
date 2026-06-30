@@ -12,11 +12,10 @@ const trener_za_brisanje = ref<any>(null)
 const pretraga = ref('')
 
 const headers = [
-  { title: 'ID', value: 'id' },
   { title: 'Ime', value: 'ime' },
   { title: 'Prezime', value: 'prezime' },
-  { title: 'E-pošta', value: 'email' },
   { title: 'Specijalizacija', value: 'specijalizacija' },
+  { title: 'Akcije', key: 'actions', sortable: false}
 ]
 
 async function dohvatiTrenere() {
@@ -86,6 +85,7 @@ async function obrisiTrenera() {
 onMounted(async () => {
   await dohvatiTrenere()
 })
+
 </script>
 
 <template>

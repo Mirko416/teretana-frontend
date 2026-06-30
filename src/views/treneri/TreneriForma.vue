@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import api from '@/services/api'
 
 const API_URL = 'http://localhost:5000'
 
@@ -18,6 +19,7 @@ const trener = reactive<any>({
 const jeUredivanje = computed(() => !!route.params.id)
 const naslov = computed(() => jeUredivanje.value ? 'Uredi trenera' : 'Dodaj trenera')
 const tekstGumba = computed(() => jeUredivanje.value ? 'Spremi promjene' : "Spremi trenera")
+
 
 async function dohvatiTrenera() {
   if (!route.params.id) {

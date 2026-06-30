@@ -12,10 +12,9 @@ const clanarina_za_brisanje = ref<any>(null)
 const pretraga = ref('')
 
 const headers = [
-  { title: 'ID', value: 'id' },
   { title: 'Naziv', value: 'naziv' },
   { title: 'Cijena', value: 'cijena' },
-  { title: 'Duljina trajanja', value: 'duljina_trajanja'}
+  { title: 'Akcije', value: 'actions', sortable: false }
 ]
 
 async function dohvatiClanarine() {
@@ -48,7 +47,7 @@ function uredi(clanarina: any) {
 }
 
 function otvoriBrisanje(clanarina: any) {
-  clanarina_za_brisanje.value = null
+  clanarina_za_brisanje.value = clanarina
   prikazi_dialog_brisanje.value = true
 }
 

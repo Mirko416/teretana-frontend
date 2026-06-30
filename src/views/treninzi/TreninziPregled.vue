@@ -8,64 +8,64 @@ const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
 
-const trener = reactive<any>({
+const trening = reactive<any>({
   id: '',
-  ime: '',
-  prezime: '',
-  specijalizacija: '',
-  email: '',
+  clan_id: '',
+  trener_id: '',
+  datum: '',
+  opis: '',
 })
 
-async function dohvatiTrenera() {
+async function dohvatiTrening() {
   loading.value = true
 
   try {
-    const response = await fetch(`${API_URL}/treneri/${route.params.id}`)
+    const response = await fetch(`${API_URL}/treninzi/${route.params.id}`)
     const data = await response.json()
-    Object.assign(trener, data)
+    Object.assign(trening, data)
   } catch (error) {
     console.log(error)
+  } finally {
+    loading.value = false
   }
 
-  loading.value = false
 }
 
 function povratak() {
-  router.push('/treneri')
+  router.push('/treninzi')
 }
 
-function urediTrenera() {
-  router.push(`/treneri/${route.params.id}/uredi`)
+function urediTrening() {
+  router.push(`/treninzi/${route.params.id}/uredi`)
 }
 
 onMounted(async () => {
-  await dohvatiTrenera()
+  await dohvatiTrening()
 })
-
 </script>
 
 <template>
   <v-card max-width="700">
     <v-card-title class="d-flex align-center">
-      Pregled trenera
+      Pregled treninga
 
       <v-spacer />
 
       <v-btn
         color="primary"
         prepend-icon="mdi-pencil"
-        @click="urediTrenera"
+        @click="urediTrening()"
       >
         Uredi
       </v-btn>
     </v-card-title>
 
-    <v-card-text v-if="!loading && trener">
-      <p><strong>ID:</strong> {{ trener.id }}</p>
-      <p><strong>Ime:</strong> {{ trener.ime }}</p>
-      <p><strong>Prezime:</strong> {{ trener.prezime }}</p>
-      <p><strong>Email:</strong> {{ trener.email }}</p>
-      <p><strong>Specijalizacija:</strong> {{ trener.specijalizacija }}</p>
+    <v-card-text v-if="!loading && trening">
+      <p><strong>ID:</strong> {{ trening.id }}</p>
+      <p><strong>Član:</strong> {{ trening.clan}}</p>
+      <p><strong>Trener:</strong> {{ trening.trener}}</p>
+      <p><strong>Opis:</strong> {{ trening.opis}}</p>
+      <p><strong>Datum:</strong> {{ trening.datum}}</p>
     </v-card-text>
 
     <v-card-text v-else>

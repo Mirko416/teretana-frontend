@@ -12,8 +12,10 @@ const TreneriForma = () => import('@/views/treneri/TreneriForma.vue')
 const TreneriPregled = () => import('@/views/treneri/TreneriPregled.vue')
 const Treninzi = () => import('@/views/treninzi/Treninzi.vue')
 const TreningForma = () => import('@/views/treninzi/TreningForma.vue')
+const TreninziPregled = () => import('@/views/treninzi/TreninziPregled.vue')
 const Clanarine = () => import('@/views/clanarine/Clanarine.vue')
 const ClanarinaForma = () => import('@/views/clanarine/ClanarinaForma.vue')
+const ClanarinePregled = () => import('@/views/clanarine/ClanarinePregled.vue')
 
 const routes: RouteRecordRaw[] = [
     {
@@ -76,6 +78,10 @@ const routes: RouteRecordRaw[] = [
         component: TreningForma
     },
     {
+        path: '/treninzi/:id',
+        component: TreninziPregled
+    },
+    {
         path: '/clanarine',
         component: Clanarine
     },
@@ -86,7 +92,12 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/clanarine/:id/uredi',
         component: ClanarinaForma
+    },
+    {
+      path: '/clanarine/:id',
+      component: ClanarinePregled
     }
+
 ]
 
 const router = createRouter({

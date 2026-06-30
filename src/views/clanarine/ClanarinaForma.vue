@@ -91,8 +91,8 @@ onMounted(async () => {
       />
 
       <v-text-field
-        v-model="clanarina.duljina_trajanja"
-        label="Duljina trajanja"
+        v-model="clanarina.duzina_trajanja"
+        label="Dužina trajanja"
         prepend-inner-icon="mdi-calendar-clock"
       />
     </v-card-text>

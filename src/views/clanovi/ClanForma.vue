@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import api from '@/services/api.ts'
 
 const API_URL = 'http://localhost:5000'
 
@@ -19,6 +20,20 @@ const clan = reactive<any>({
 const jeUredivanje = computed(() => !!route.params.id)
 const naslov = computed(() => jeUredivanje.value ? 'Uredi člana' : 'Dodaj člana')
 const tekstGumba = computed(() => jeUredivanje.value ? 'Spremi člana' : 'Spremi člana')
+const form = ref({
+  ime: '',
+  prezime: '',
+  email: '',
+  mobitel: '',
+  datum_uclanjenja: ''
+})
+
+onMounted(async () => {
+  if (route.params.id) {
+    const res = await api.get(`/clanovi/${route.params.id}`)
+    form.value = res.data
+  }
+})
 
 async function dohvatiClana() {
   if (!route.params.id) {
@@ -75,6 +90,15 @@ function odustani() {
 onMounted(async () => {
   await dohvatiClana()
 })
+
+async function spremi() {
+  if (route.params.id) {
+    await api.put('/clanovi${route.params.id}', form.value)
+  } else {
+    await api.post('/clanovi', form.value)
+  }
+  router.push('/clanovi')
+}
 </script>
 
 <template>

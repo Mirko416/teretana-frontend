@@ -3,10 +3,12 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/services/api'
 
+
 const route = useRoute()
 const router = useRouter()
 
 const loading = ref(false)
+
 
 const clanovi = ref<any[]>([])
 const treneri = ref<any[]>([])
@@ -17,6 +19,7 @@ const trening = reactive<any>({
   datum: '',
   opis: ''
 })
+
 
 const isEdit = computed(() => !!route.params.id)
 
@@ -34,14 +37,28 @@ async function loadDropdowns() {
   console.error("Dropdown error:", e)
   }
 }
+
+async function loadTrening() {
+  if (!route.params.id) return
+
+  const res = await api.get(`/treninzi/${route.params.id}`)
+
+  Object.assign(trening, {
+    clan_id: res.data.clan_id,
+    trener_id: res.data.trener_id,
+    datum: res.data.datum,
+    opis: res.data.opis
+  })
+}
 async function spremi() {
   loading.value = true
 
-  const url = isEdit.value
+  try {
+  const url = route.params.id
   ? `/treninzi/${route.params.id}`
   : '/treninzi'
 
-  const method = isEdit.value ? 'put' : 'post'
+  const method = route.params.id ? 'put' : 'post'
 
   await api.request({
     url,
@@ -49,11 +66,19 @@ async function spremi() {
     data: trening
   })
 
-  loading.value = false
   router.push('/treninzi')
+} catch (e) {
+  console.error("Save error:", e)
+} finally {
+  loading.value = false
+  }
 }
 
-onMounted(loadDropdowns)
+onMounted(async () => {
+  await loadDropdowns()
+  await loadTrening()
+})
+
 </script>
 
 <template>

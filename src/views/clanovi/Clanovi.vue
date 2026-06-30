@@ -12,12 +12,9 @@ const clan_za_brisanje = ref<any>(null)
 const pretraga = ref('')
 
 const headers = [
-  { title: 'ID', value: 'id' },
   { title: 'Ime', value: 'ime' },
   { title: 'Prezime', value: 'prezime' },
-  { title: 'E-pošta', value: 'email' },
-  { title: 'Mobitel', value: 'mobitel' },
-  { title: 'Datum učlanjenja', key: 'datum učlanjenja', sortable: false },
+  { title: 'Akcije', key: 'actions', sortable: false }
 ]
 
 async function dohvatiClanove() {
@@ -125,6 +122,18 @@ async function dohvatiClanove() {
                 size="small"
                 variant="text"
                 @click="pregledaj(item)"
+              />
+            </template>
+          </v-tooltip>
+
+          <v-tooltip text="Uredi">
+            <template #activator="{ props }">
+              <v-btn
+                  v-bind="props"
+                  icon="mdi-pencil"
+                  size="small"
+                  variant="text"
+                  @click="uredi(item)"
               />
             </template>
           </v-tooltip>
