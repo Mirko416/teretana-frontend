@@ -72,48 +72,103 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-card max-width="700">
-    <v-card-title>
-      {{ naslov }}
-    </v-card-title>
+  <v-container fluid class="page-gray">
+    <div class="page-box">
+      <h1 class="text-h4 font-weight-bold">
+        {{ naslov }}
+      </h1>
 
-    <v-card-text>
-      <v-text-field
-        v-model="clanarina.naziv"
-        label="Naziv"
-        prepend-inner-icon="mdi-account-outline"
-      />
+      <p class="page-text">
+        Ovdje možeš dodati novu članarinu ili urediti podatke postojeće članarine.
+      </p>
 
-      <v-text-field
-        v-model="clanarina.cijena"
-        label="Cijena"
-        prepend-inner-icon="mdi-currency-eur"
-      />
+      <v-divider class="my-6" />
 
-      <v-text-field
-        v-model="clanarina.duzina_trajanja"
-        label="Dužina trajanja"
-        prepend-inner-icon="mdi-calendar-clock"
-      />
-    </v-card-text>
+      <v-row>
+        <v-col cols="12" md="4">
+          <v-text-field
+              v-model="clanarina.naziv"
+              label="Naziv"
+              prepend-inner-icon="mdi-card-account-details"
+              variant="outlined"
+          />
+        </v-col>
 
-    <v-card-actions>
-      <v-spacer />
+        <v-col cols="12" md="4">
+          <v-text-field
+              v-model="clanarina.cijena"
+              label="Cijena"
+              prepend-inner-icon="mdi-currency-eur"
+              variant="outlined"
+          />
+        </v-col>
 
-      <v-btn
-        variant="text"
-        @click="odustani"
-      >
-        Odustani
-      </v-btn>
+        <v-col cols="12" md="4">
+          <v-text-field
+              v-model="clanarina.duzina_trajanja"
+              label="Dužina trajanja"
+              prepend-inner-icon="mdi-calendar-clock"
+              variant="outlined"
+          />
+        </v-col>
+      </v-row>
 
-      <v-btn
-        color="primary"
-        :loading="loading"
-        @click="spremiClanarinu"
-      >
-        {{ tekstGumba }}
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+      <div class="page-actions">
+        <v-btn
+            variant="text"
+            @click="odustani"
+        >
+          Odustani
+        </v-btn>
+
+        <v-btn
+            color="primary"
+            :loading="loading"
+            @click="spremiClanarinu"
+        >
+          {{ tekstGumba }}
+        </v-btn>
+      </div>
+    </div>
+  </v-container>
 </template>
+<style scoped>
+.page-gray {
+  min-height: calc(100vh - 64px);
+  background: #eeeeee;
+  padding: 48px 24px;
+}
+
+.page-box {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  color: black;
+  padding: 40px;
+  border-radius: 8px;
+}
+
+.page-text {
+  font-size: 18px;
+  color: #333333;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+:deep(.v-field) {
+  background: white;
+  color: black;
+}
+
+:deep(.v-label),
+:deep(input) {
+  color: black;
+}
+</style>

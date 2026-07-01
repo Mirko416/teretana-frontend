@@ -90,28 +90,37 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-card>
-    <v-card-title class="d-flex align-center">
-      Treninzi
+  <v-container fluid class="page-gray">
+    <div class="page-box">
+      <div class="page-header">
+        <div>
+          <h1 class="text-h4 font-weight-bold">
+            Treninzi
+          </h1>
 
-      <v-spacer />
+          <p class="page-text">
+            Evidencija treninga!
+            U ovom dijelu aplikacije vodi se pregled svih održanih i planiranih treninga. Za svaki trening dostupne su ključne informacije poput člana, trenera, opisa i datuma. Sustav omogućava jednostavno uređivanje postojećih zapisa ili njihovo brisanje, čime se osigurava točnost i ažurnost podataka o aktivnostima u teretani.          </p>
+        </div>
 
-      <v-btn
-          color="primary"
-          prepend-icon="mdi-plus"
-          @click="idiNaDodavanje"
-      >
-        Dodaj
-      </v-btn>
-    </v-card-title>
+        <v-btn
+            color="primary"
+            prepend-icon="mdi-plus"
+            @click="idiNaDodavanje"
+        >
+          Dodaj
+        </v-btn>
+      </div>
 
-    <v-card-text>
+      <v-divider class="mb-6" />
+
       <v-text-field
           v-model="pretraga"
           label="Pretraži treninge"
           prepend-inner-icon="mdi-magnify"
           clearable
-          class="mb-4"
+          variant="outlined"
+          class="mb-6"
           @update:model-value="pretraziTreninge"
       />
 
@@ -119,6 +128,7 @@ onMounted(async () => {
           :headers="headers"
           :items="treninzi"
           :loading="loading"
+          class="page-table"
       >
         <template #item.actions="{ item }">
           <v-tooltip text="Pregledaj">
@@ -128,6 +138,7 @@ onMounted(async () => {
                   icon="mdi-eye"
                   size="small"
                   variant="text"
+                  color="primary"
                   @click="pregledaj(item)"
               />
             </template>
@@ -140,6 +151,7 @@ onMounted(async () => {
                   icon="mdi-pencil"
                   size="small"
                   variant="text"
+                  color="primary"
                   @click="uredi(item)"
               />
             </template>
@@ -152,14 +164,15 @@ onMounted(async () => {
                   icon="mdi-delete"
                   size="small"
                   variant="text"
+                  color="red"
                   @click="otvoriBrisanje(item)"
               />
             </template>
           </v-tooltip>
         </template>
       </v-data-table>
-    </v-card-text>
-  </v-card>
+    </div>
+  </v-container>
 
   <v-dialog
       v-model="prikazi_dialog_brisanje"
@@ -195,3 +208,54 @@ onMounted(async () => {
     </v-card>
   </v-dialog>
 </template>
+<style scoped>
+.page-gray {
+  min-height: calc(100vh - 64px);
+  background: #eeeeee;
+  padding: 48px 24px;
+}
+
+.page-box {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  color: black;
+  padding: 40px;
+  border-radius: 8px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.page-text {
+  font-size: 18px;
+  color: #333333;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.page-table {
+  background: white;
+  color: black;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+}
+
+:deep(.v-data-table),
+:deep(.v-field) {
+  background: white;
+  color: black;
+}
+
+:deep(.v-data-table-header__content),
+:deep(.v-data-table__td),
+:deep(.v-label),
+:deep(input) {
+  color: black;
+}
+</style>

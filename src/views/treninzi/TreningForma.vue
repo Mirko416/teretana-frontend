@@ -82,50 +82,128 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-card max-width="700">
-    <v-card-title>
-      {{ isEdit ? 'Uredi trening' : 'Dodaj trening' }}
-    </v-card-title>
+  <v-container fluid class="page-gray">
+    <div class="page-box">
+      <h1 class="text-h4 font-weight-bold">
+        {{ isEdit ? 'Uredi trening' : 'Dodaj trening' }}
+      </h1>
 
-    <v-card-text>
+      <p class="page-text">
+        Ovdje možeš dodati novi trening ili urediti podatke postojećeg treninga.
+      </p>
 
-      <v-select
-          v-model="trening.clan_id"
-          :items="clanovi"
-          item-title="title"
-          item-value="value"
-          label="Član"
-      />
+      <v-divider class="my-6" />
 
-      <v-select
-          v-model="trening.trener_id"
-          :items="treneri"
-          item-title="title"
-          item-value="value"
-          label="Trener"
-      />
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-select
+              v-model="trening.clan_id"
+              :items="clanovi"
+              item-title="title"
+              item-value="value"
+              label="Član"
+              variant="outlined"
+          />
+        </v-col>
 
-      <v-text-field
-          v-model="trening.datum"
-          label="Datum i vrijeme"
-          type="datetime-local"
-          prepend-inner-icon="mdi-calendar"
-      />
+        <v-col cols="12" md="6">
+          <v-select
+              v-model="trening.trener_id"
+              :items="treneri"
+              item-title="title"
+              item-value="value"
+              label="Trener"
+              variant="outlined"
+          />
+        </v-col>
 
-      <v-text-field
-          v-model="trening.opis"
-          label="Opis treninga (npr. cardio, push day...)"
-          prepend-inner-icon="mdi-dumbbell"
-      />
+        <v-col cols="12" md="6">
+          <v-text-field
+              v-model="trening.datum"
+              label="Datum i vrijeme"
+              type="datetime-local"
+              prepend-inner-icon="mdi-calendar"
+              variant="outlined"
+          />
+        </v-col>
 
-    </v-card-text>
+        <v-col cols="12" md="6">
+          <v-text-field
+              v-model="trening.opis"
+              label="Opis treninga"
+              prepend-inner-icon="mdi-dumbbell"
+              variant="outlined"
+          />
+        </v-col>
+      </v-row>
 
-    <v-card-actions>
-      <v-spacer />
-      <v-btn @click="router.push('/treninzi')">Odustani</v-btn>
-      <v-btn color="primary" :loading="loading" @click="spremi">
-        Spremi
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+      <div class="page-actions">
+        <v-btn
+            variant="text"
+            @click="router.push('/treninzi')"
+        >
+          Odustani
+        </v-btn>
+
+        <v-btn
+            color="primary"
+            :loading="loading"
+            @click="spremi"
+        >
+          Spremi
+        </v-btn>
+      </div>
+    </div>
+  </v-container>
 </template>
+<style scoped>
+.page-gray {
+  min-height: calc(100vh - 64px);
+  background: #eeeeee;
+  padding: 48px 24px;
+}
+
+.page-box {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  color: black;
+  padding: 40px;
+  border-radius: 8px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.page-text {
+  font-size: 18px;
+  color: #333333;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.page-table {
+  background: white;
+  color: black;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+}
+
+:deep(.v-data-table),
+:deep(.v-field) {
+  background: white;
+  color: black;
+}
+
+:deep(.v-data-table-header__content),
+:deep(.v-data-table__td),
+:deep(.v-label),
+:deep(input) {
+  color: black;
+}
+</style>

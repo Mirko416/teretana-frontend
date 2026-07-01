@@ -56,66 +56,177 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-card max-width="700">
-    <v-card-title class="d-flex align-center">
-      Pregled člana
+  <v-container fluid class="clan-page">
+    <div class="clan-box">
+      <div class="clan-header">
+        <div>
+          <h1 class="text-h4 font-weight-bold">
+            Pregled člana
+          </h1>
 
-      <v-spacer />
+          <p class="clan-text">
+            Ovdje su prikazani osnovni podaci odabranog člana teretane.
+          </p>
+        </div>
 
-      <v-btn
-        color="primary"
-        prepend-icon="mdi-pencil"
-        @click="urediClana()"
-      >
-        Uredi
-      </v-btn>
+        <v-btn
+            color="primary"
+            prepend-icon="mdi-pencil"
+            @click="urediClana()"
+        >
+          Uredi
+        </v-btn>
+      </div>
 
-      <v-tabs v-model="tab" class="mt-2">
-        <v-tab value="info">Podaci</v-tab>
-        <v-tab value="pretplate">Pretplate</v-tab>
+      <v-divider class="mb-6" />
+
+      <v-tabs v-model="tab" class="mb-6">
+        <v-tab value="info">
+          Podaci
+        </v-tab>
+
+        <v-tab value="pretplate">
+          Pretplate
+        </v-tab>
       </v-tabs>
-    </v-card-title>
 
-    <v-window v-model="tab">
+      <v-window v-model="tab">
+        <v-window-item value="info">
+          <div v-if="loading">
+            Učitavanje...
+          </div>
 
-      <v-window-item value="info">
-        <v-card-text v-if="loading">
-          Učitavanje...
-        </v-card-text>
+          <div v-else class="info-grid">
+            <div class="info-item">
+              <span>ID</span>
+              <strong>{{ clan.id }}</strong>
+            </div>
 
-        <v-card-text v-else>
-          <p><strong>ID:</strong> {{ clan.id }}</p>
-          <p><strong>Ime:</strong> {{ clan.ime }}</p>
-          <p><strong>Prezime:</strong> {{ clan.prezime }}</p>
-          <p><strong>E-pošta:</strong> {{ clan.email }}</p>
-          <p><strong>Mobitel:</strong> {{ clan.mobitel }}</p>
-          <p><strong>Datum učlanjenja</strong> {{ clan.datum_uclanjenja }}</p>
-        </v-card-text>
-      </v-window-item>
+            <div class="info-item">
+              <span>Ime</span>
+              <strong>{{ clan.ime }}</strong>
+            </div>
 
-      <v-window-item value="pretplate">
-        <v-card-text>
+            <div class="info-item">
+              <span>Prezime</span>
+              <strong>{{ clan.prezime }}</strong>
+            </div>
+
+            <div class="info-item">
+              <span>E-pošta</span>
+              <strong>{{ clan.email }}</strong>
+            </div>
+
+            <div class="info-item">
+              <span>Mobitel</span>
+              <strong>{{ clan.mobitel }}</strong>
+            </div>
+
+            <div class="info-item">
+              <span>Datum učlanjenja</span>
+              <strong>{{ clan.datum_uclanjenja }}</strong>
+            </div>
+          </div>
+        </v-window-item>
+
+        <v-window-item value="pretplate">
           <v-data-table
-            :items="pretplate"
-            :headers="[
-                { title: 'Datum početka', value: 'datum_pocetka'},
-                { title: 'Datum završetka', value: 'datum_zavrsetka'},
-             ]"
-            />
-        </v-card-text>
-      </v-window-item>
-    </v-window>
+              :items="pretplate"
+              :headers="[
+              { title: 'Datum početka', value: 'datum_pocetka' },
+              { title: 'Datum završetka', value: 'datum_zavrsetka' },
+            ]"
+              class="clan-table"
+          />
+        </v-window-item>
+      </v-window>
 
-
-    <v-card-actions>
-      <v-spacer />
-
-      <v-btn
-        variant="text"
-        @click="povratak"
-      >
-        Natrag
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+      <div class="clan-actions">
+        <v-btn
+            variant="text"
+            @click="povratak"
+        >
+          Natrag
+        </v-btn>
+      </div>
+    </div>
+  </v-container>
 </template>
+<style scoped>
+.clan-page {
+  min-height: calc(100vh - 64px);
+  background: #eeeeee;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.clan-box {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  color: black;
+  padding: 40px;
+  border-radius: 8px;
+}
+
+.clan-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.clan-text {
+  font-size: 18px;
+  color: #333333;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.info-item {
+  background: #f7f7f7;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.info-item span {
+  display: block;
+  color: #666666;
+  margin-bottom: 6px;
+}
+
+.info-item strong {
+  color: black;
+}
+
+.clan-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+.clan-table {
+  background: white;
+  color: black;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+}
+
+:deep(.v-data-table) {
+  background: white;
+  color: black;
+}
+
+:deep(.v-data-table-header__content),
+:deep(.v-data-table__td),
+:deep(.v-tab) {
+  color: black;
+}
+</style>

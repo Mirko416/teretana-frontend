@@ -102,61 +102,129 @@ async function spremi() {
 </script>
 
 <template>
-  <v-card max-width="700">
-    <v-card-title>
-      {{ naslov }}
-    </v-card-title>
+  <v-container fluid class="clan-form-page">
+    <div class="clan-form-box">
+      <div class="clan-form-header">
+        <h1 class="text-h4 font-weight-bold">
+          {{ naslov }}
+        </h1>
 
-    <v-card-text>
-      <v-text-field
-        v-model="clan.ime"
-        label="Ime"
-        prepend-inner-icon="mdi-account"
-      />
+        <p class="clan-form-text">
+          Ovdje možeš dodati novog člana ili urediti podatke postojećeg člana.
+        </p>
+      </div>
 
-      <v-text-field
-        v-model="clan.prezime"
-        label="Prezime"
-        prepend-inner-icon="mdi-account-outline"
-      />
+      <v-divider class="mb-6" />
 
-      <v-text-field
-        v-model="clan.email"
-        label="E-pošta"
-        prepend-inner-icon="mdi-email-outline"
-      />
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-text-field
+              v-model="clan.ime"
+              label="Ime"
+              prepend-inner-icon="mdi-account"
+              variant="outlined"
+          />
+        </v-col>
 
-      <v-text-field
-        v-model="clan.mobitel"
-        label="Mobitel"
-        prepend-inner-icon="mdi-phone"
-      />
+        <v-col cols="12" md="6">
+          <v-text-field
+              v-model="clan.prezime"
+              label="Prezime"
+              prepend-inner-icon="mdi-account-outline"
+              variant="outlined"
+          />
+        </v-col>
 
-      <v-text-field
-        v-model="clan.datum_uclanjenja"
-        label="Datum učlanjenja"
-        type="date"
-        prepend-inner-icon="mdi-calendar"
-      />
-    </v-card-text>
+        <v-col cols="12" md="6">
+          <v-text-field
+              v-model="clan.email"
+              label="E-pošta"
+              prepend-inner-icon="mdi-email-outline"
+              variant="outlined"
+          />
+        </v-col>
 
-    <v-card-actions>
-      <v-spacer />
+        <v-col cols="12" md="6">
+          <v-text-field
+              v-model="clan.mobitel"
+              label="Mobitel"
+              prepend-inner-icon="mdi-phone"
+              variant="outlined"
+          />
+        </v-col>
 
-      <v-btn
-        variant="text"
-        @click="odustani"
-      >
-        Odustani
-      </v-btn>
+        <v-col cols="12">
+          <v-text-field
+              v-model="clan.datum_uclanjenja"
+              label="Datum učlanjenja"
+              type="date"
+              prepend-inner-icon="mdi-calendar"
+              variant="outlined"
+          />
+        </v-col>
+      </v-row>
 
-      <v-btn
-        color="primary"
-        :loading="loading"
-        @click="spremiClana()"
-      >
-        {{ tekstGumba }}
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+      <div class="clan-form-actions">
+        <v-btn
+            variant="text"
+            @click="odustani"
+        >
+          Odustani
+        </v-btn>
+
+        <v-btn
+            color="primary"
+            :loading="loading"
+            @click="spremiClana()"
+        >
+          {{ tekstGumba }}
+        </v-btn>
+      </div>
+    </div>
+  </v-container>
 </template>
+<style scoped>
+.clan-form-page {
+  min-height: calc(100vh - 64px);
+  background: #eeeeee;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.clan-form-box {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  color: black;
+  padding: 40px;
+  border-radius: 8px;
+}
+
+.clan-form-header {
+  margin-bottom: 24px;
+}
+
+.clan-form-text {
+  font-size: 18px;
+  color: #333333;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.clan-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+:deep(.v-field) {
+  background: white;
+  color: black;
+}
+
+:deep(.v-label),
+:deep(input) {
+  color: black;
+}
+</style>
