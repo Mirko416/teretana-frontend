@@ -8,13 +8,14 @@ const API_URL = 'http://localhost:5000'
 const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
+const menu = ref(false)
 
 const clan = reactive<any>({
   ime: '',
   prezime: '',
   email: '',
   mobitel: '',
-  datum_uclanjenja: '',
+  datum_uclanjenja: null,
 })
 
 const jeUredivanje = computed(() => !!route.params.id)
@@ -154,13 +155,30 @@ async function spremi() {
         </v-col>
 
         <v-col cols="12">
-          <v-text-field
-              v-model="clan.datum_uclanjenja"
-              label="Datum učlanjenja"
-              type="date"
-              prepend-inner-icon="mdi-calendar"
-              variant="outlined"
-          />
+          <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+          >
+            <template v-slot:activator="{ props }">
+              <v-text-field
+                  v-model="clan.datum_uclanjenja"
+                  label="Datum učlanjenja"
+                  prepend-inner-icon="mdi-calendar"
+                  variant="outlined"
+                  readonly
+                  v-bind="props"
+              />
+            </template>
+
+            <v-date-picker
+                v-model="clan.datum_uclanjenja"
+                @update:modelValue="val => {
+                  clan.datum_uclanjenja = new Date(val).toISOString().split('T')[0]
+                  menu = false
+                }"
+            />
+          </v-menu>
         </v-col>
       </v-row>
 

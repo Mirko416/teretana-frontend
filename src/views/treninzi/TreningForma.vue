@@ -3,12 +3,11 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/services/api'
 
-
 const route = useRoute()
 const router = useRouter()
 
 const loading = ref(false)
-
+const menu = ref(false)
 
 const clanovi = ref<any[]>([])
 const treneri = ref<any[]>([])
@@ -22,6 +21,11 @@ const trening = reactive<any>({
 
 
 const isEdit = computed(() => !!route.params.id)
+
+function formatDate(value: string) {
+  if (!value) return ''
+  return value.split('T')[0]
+}
 
 async function loadDropdowns() {
   try {
@@ -43,12 +47,10 @@ async function loadTrening() {
 
   const res = await api.get(`/treninzi/${route.params.id}`)
 
-  Object.assign(trening, {
-    clan_id: res.data.clan_id,
-    trener_id: res.data.trener_id,
-    datum: res.data.datum,
-    opis: res.data.opis
-  })
+    trening.clan_id = res.data.clan_id
+    trening.trener_id = res.data.trener_id
+    trening.datum = formatDate(res.data.datum)
+    trening.opis = res.data.opis
 }
 async function spremi() {
   loading.value = true
@@ -59,6 +61,7 @@ async function spremi() {
   : '/treninzi'
 
   const method = route.params.id ? 'put' : 'post'
+
 
   await api.request({
     url,
@@ -118,13 +121,25 @@ onMounted(async () => {
         </v-col>
 
         <v-col cols="12" md="6">
-          <v-text-field
-              v-model="trening.datum"
-              label="Datum i vrijeme"
-              type="datetime-local"
-              prepend-inner-icon="mdi-calendar"
-              variant="outlined"
-          />
+          <v-menu v-model="menu" :close-on-content-click="false">
+
+            <template v-slot:activator="{ props }">
+              <v-text-field
+                  v-model="trening.datum"
+                  label="Datum treninga"
+                  prepend-inner-icon="mdi-calendar"
+                  readonly
+                  v-bind="props"
+                  variant="outlined"
+              />
+            </template>
+
+            <v-date-picker
+                v-model="trening.datum"
+                @update:modelValue="menu = false"
+            />
+
+          </v-menu>
         </v-col>
 
         <v-col cols="12" md="6">
